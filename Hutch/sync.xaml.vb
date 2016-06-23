@@ -61,7 +61,6 @@ Public Class sync
             Dim sr As StreamReader = New StreamReader(resp.GetResponseStream(), System.Text.Encoding.ASCII)
             Dim s As String = sr.ReadToEnd()
             Dim ftpNPath As String = Replace(miUri, New FileInfo(file).Name, "")
-            MsgBox(Replace(miUri, New FileInfo(file).Name, ""))
             Dim tempFold() As String = Replace(ftpNPath, ftpHost + "/", "").Split("/")
             Dim foldName As String = ""
             Dim bool As Boolean = False
@@ -70,7 +69,6 @@ Public Class sync
 
                     Console.Write("TempFold" + j.ToString + ":" + Replace(ftpNPath, ftpHost + "/", ""))
                     request = FtpWebRequest.Create(ftpHost + "/" + foldName + tempFold(j))
-                    MsgBox(ftpHost + "/" + tempFold(j))
                     request.Credentials = creds
                     request.Method = WebRequestMethods.Ftp.MakeDirectory
                     resp = request.GetResponse()
@@ -80,7 +78,6 @@ Public Class sync
                     Else
                         foldName = foldName + tempFold(j) + "/"
                     End If
-                    MsgBox(foldName)
                 Next j
             Else
                 Console.WriteLine("Directory already exists")
