@@ -157,6 +157,12 @@ Public Class sync
         t.Tag = DateTime.Now
         AddHandler t.Tick, AddressOf MyTickHandler
         t.Start()
+        Dim fl As String = "./changesData.txt"
+        If Not File.Exists(fl) Then
+            Dim nowdate As String = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+            File.WriteAllText("./changesData.txt", String.Join("|", New String() {nowdate}))
+            lastCheck = nowdate
+        End If
     End Sub
     Sub MyTickHandler(ByVal sender As Object, ByVal e As EventArgs)
         Dim t As Timer = DirectCast(sender, Timer)
