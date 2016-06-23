@@ -12,7 +12,7 @@ Class MainWindow
         File.WriteAllText("./projectData.txt", String.Join("|", New String() {path}))
         synWindow = New sync()
         synWindow.Show()
-
+        Me.Close()
     End Sub
 
     Private Sub Select_Project_Loaded(sender As Object, e As RoutedEventArgs) Handles Select_Project.Loaded
