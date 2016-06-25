@@ -39,7 +39,7 @@ Public Class sync
         user = hostData(0)
         pass = hostData(1)
         host = hostData(2)
-        MsgBox(user)
+        'MsgBox(user)
         If host(host.Length - 1) = "/" Or host(host.Length - 1) = "\" Then
             host = host.Remove(host.Length - 1)
         End If
@@ -157,23 +157,25 @@ Public Class sync
         t.Tag = DateTime.Now
         AddHandler t.Tick, AddressOf MyTickHandler
         t.Start()
-        Dim fl As String = "./changesData.txt"
+        Dim values() As String = File.ReadAllText("./projectData.txt").Split("|"c)
+        filePath = values(0)
+        Dim fl As String = filePath + "/changesData.txt"
         If Not File.Exists(fl) Then
             Dim nowdate As String = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
-            File.WriteAllText("./changesData.txt", String.Join("|", New String() {nowdate}))
+            File.WriteAllText(filePath + "/changesData.txt", String.Join("|", New String() {nowdate}))
             lastCheck = nowdate
         End If
     End Sub
     Sub MyTickHandler(ByVal sender As Object, ByVal e As EventArgs)
         Dim t As Timer = DirectCast(sender, Timer)
         Dim values() As String = File.ReadAllText("./projectData.txt").Split("|"c)
-        Dim checkValues() As String = File.ReadAllText("./changesData.txt").Split("|"c)
+        Dim checkValues() As String = File.ReadAllText(filePath + "/changesData.txt").Split("|"c)
         filePath = values(0)
         lastCheck = checkValues(0)
         listView.Items.Clear()
         If lastCheck Is "" Then
             Dim nowdate As String = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
-            File.WriteAllText("./changesData.txt", String.Join("|", New String() {nowdate}))
+            File.WriteAllText(filePath + "/changesData.txt", String.Join("|", New String() {nowdate}))
             lastCheck = nowdate
         End If
         ForEachFileAndFolder(filePath, AddressOf dirAction, AddressOf fileAction)
