@@ -32,7 +32,7 @@ Public Class sync
 
     End Sub
 
-    Public Sub uploadFTP(file As String, fileName As String)
+    Public Sub uploadFTP(file1 As String, fileName As String)
         Dim user, pass, host As String
         Dim f As File
         Dim hostData() As String = f.ReadAllText("./hostData.txt").Split("|"c)
@@ -60,7 +60,7 @@ Public Class sync
             resp = request.GetResponse()
             Dim sr As StreamReader = New StreamReader(resp.GetResponseStream(), System.Text.Encoding.ASCII)
             Dim s As String = sr.ReadToEnd()
-            Dim ftpNPath As String = Replace(miUri, New FileInfo(file).Name, "")
+            Dim ftpNPath As String = Replace(miUri, New FileInfo(file1).Name, "")
             Dim tempFold() As String = Replace(ftpNPath, ftpHost + "/", "").Split("/")
             Dim foldName As String = ""
             Dim bool As Boolean = False
@@ -91,7 +91,7 @@ Public Class sync
         miRequest.Credentials = New Net.NetworkCredential(user, pass)
         miRequest.Method = Net.WebRequestMethods.Ftp.UploadFile
         Try
-            Dim bFile() As Byte = System.IO.File.ReadAllBytes(file)
+            Dim bFile() As Byte = System.IO.File.ReadAllBytes(file1)
             Dim miStream As System.IO.Stream = miRequest.GetRequestStream()
             miStream.Write(bFile, 0, bFile.Length)
             miStream.Close()
